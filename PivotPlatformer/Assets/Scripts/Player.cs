@@ -27,8 +27,6 @@ public class Player : MonoBehaviour {
         hammer.RotateAround(transform.position, new Vector3(1, 0, 0), vertical * speed * Time.deltaTime);
         hammer.RotateAround(transform.position, new Vector3(0, 0, -1), horizontal * speed * Time.deltaTime);
 
-        //transform.localEulerAngles += (transform.right * vertical + transform.forward * horizontal) * speed * Time.deltaTime;
-
-        //rb.MoveRotation(Quaternion.Euler(transform.eulerAngles + transform.right * horizontal));
+        
     }
 }

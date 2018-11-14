@@ -16,6 +16,7 @@ public class Hammer : MonoBehaviour {
     private void Update()
     {
         transform.localPosition = offset;
+       // rb.AddForce(transform.up * force, ForceMode.Force);
     }
 
     private void OnCollisionEnter(Collision collision)

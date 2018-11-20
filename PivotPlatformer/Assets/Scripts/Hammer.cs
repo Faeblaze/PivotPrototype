@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Hammer : MonoBehaviour {
+public class Hammer : MonoBehaviour
+{
     public float force = 10F;
+    public float smallForce = 2F;
+
     public Rigidbody rb;
 
     private Vector3 offset;
+
+    private bool grounded;
 
     private void Awake()
     {
@@ -16,12 +19,30 @@ public class Hammer : MonoBehaviour {
     private void Update()
     {
         transform.localPosition = offset;
-       // rb.AddForce(transform.up * force, ForceMode.Force);
+        // rb.AddForce(transform.up * force, ForceMode.Force);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!grounded)
+            rb.AddForce(-transform.right * smallForce, ForceMode.Force);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Ground"))
+        if (collision.collider.CompareTag("Ground"))
             rb.AddForce(collision.contacts[0].normal * force, ForceMode.Impulse);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+            grounded = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+            grounded = false;
     }
 }

@@ -2,6 +2,7 @@
 
 public class Hammer : MonoBehaviour
 {
+    public Player player;
     public float force = 10F;
     public float smallForce = 2F;
 
@@ -32,8 +33,10 @@ public class Hammer : MonoBehaviour
     {
         if (collision.collider.CompareTag("Ground"))
             rb.AddForce(collision.contacts[0].normal * force, ForceMode.Impulse);
+        else if (collision.collider.CompareTag("Death"))
+            player.Die();
     }
-
+        
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))

@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
     public float speed = 5F;
 
     public Transform hammer;
@@ -17,12 +17,14 @@ public class Player : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         float vertical = Input.GetAxisRaw("Vertical");
         float horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour {
         //hmmer.RotateAround(transform.position, Vector3.right, vertical * speed * Time.deltaTime);
         //hammer.RotateAround(transform.position, Vector3.back, horizontal * speed * Time.deltaTime);
 
-        
+
     }
 
     // Borrowed from https://github.com/fuj1n/JMC_RollingJono/blob/master/RollingJono/Assets/Scripts/GameBoard.cs
@@ -54,5 +56,27 @@ public class Player : MonoBehaviour {
         return Quaternion.AngleAxis(pitch * speed * Time.deltaTime, objectRelativePitch)
              * Quaternion.AngleAxis(yaw * speed * Time.deltaTime, objectRelaviveYaw)
              * Quaternion.AngleAxis(roll * speed * Time.deltaTime, objectRelaviveRoll);
+    }
+
+    private void Win()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Die ()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Death"))
+            Die();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+            Win();
     }
 }
